@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model IngestCursor {
+  id          String   @id // source name
+  cursor      String?
+  lastSinceISO String  // ISO timestamp checkpoint
+  updatedAt   DateTime @updatedAt
+}
+
+model Signal {
+  id        String   @id @default(cuid())
+  source    String
+  ts        DateTime @db.Timestamptz(6)
+  geo       String
+  key       String
+  kind      String
+  value     Float
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([source, ts])
+  @@index([key, ts])
+  @@unique([source, ts, geo, kind, key])
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  source      String
+  sourceRef   String
+  url         String?
+  publishedAt DateTime
+  collectedAt DateTime
+  lang        String
+  title       String?
+  text        String
+  authorHash  String?
+  metrics     Json?
+  context     Json?
+  createdAt   DateTime @default(now())
+
+  @@unique([source, sourceRef])
+  @@index([source, publishedAt])
+}
+
+model TrendAlias {
+  id           String   @id @default(cuid())
+  rawKey       String   @db.Text
+  canonicalKey String   @db.Text
+  enabled      Boolean  @default(true)
+  note         String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([rawKey])
+  @@index([canonicalKey])
+  @@unique([rawKey, canonicalKey])
+}

@@ -1,0 +1,10 @@
+node_modules/
+vendor/
+.env
+.env.*
+dist/
+build/
+.idea/
+.vscode/
+.DS_Store
+.turbo/

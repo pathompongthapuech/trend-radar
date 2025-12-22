@@ -1,0 +1,26 @@
+sources:
+  - name: google_trends
+    enabled: true
+    weight: 0.35
+    schedule_cron: "0 */3 * * *"
+    config:
+      geo: TH
+
+  - name: gdelt
+    enabled: true
+    weight: 0.45
+    schedule_cron: "*/30 * * * *"
+    config:
+      query_lang: th
+      geo_hint: TH
+
+  - name: x_trendlist
+    enabled: true
+    weight: 0.20
+    schedule_cron: "*/10 * * * *"
+    config:
+      country_page: "thailand"
+
+feature_flags:
+  x_official_enabled: false
+  pantip_enabled: false
