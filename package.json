@@ -5,9 +5,17 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "prisma:generate": "pnpm --filter api prisma:generate",
+    "prisma:migrate": "pnpm --filter api prisma:migrate",
+    "bootstrap": "pnpm install && pnpm db:up && pnpm prisma:generate && pnpm prisma:migrate"
   },
   "devDependencies": {
     "turbo": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
